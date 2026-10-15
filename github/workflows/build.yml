@@ -1,0 +1,63 @@
+name: Build VoxaZ Studio APK
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find project (auto-unzip if uploaded as a .zip)
+        run: |
+          set -e
+          if [ -f settings.gradle.kts ] || [ -f settings.gradle ]; then
+            DIR="$PWD"
+          else
+            ZIP=$(find . -name '*.zip' -not -path './.git/*' | head -n 1)
+            if [ -z "$ZIP" ]; then echo "No project or .zip found in the repo"; exit 1; fi
+            echo "Unzipping $ZIP"
+            mkdir -p _project
+            unzip -q -o "$ZIP" -d _project
+            F=$(find _project -name 'settings.gradle*' | head -n 1)
+            if [ -z "$F" ]; then echo "settings.gradle not found inside the zip"; exit 1; fi
+            DIR="$PWD/$(dirname "$F")"
+          fi
+          echo "PROJECT_DIR=$DIR" >> "$GITHUB_ENV"
+          echo "Project dir: $DIR"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: android-actions/setup-android@v3
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.9
+
+      - name: Build debug APK
+        run: |
+          cd "$PROJECT_DIR"
+          gradle assembleDebug --no-daemon
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          cp app/build/outputs/apk/debug/*.apk "$GITHUB_WORKSPACE/out/VoxaZ-Studio.apk"
+
+      - name: Publish APK to Releases (direct download)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: VoxaZ Studio build ${{ github.run_number }}
+          files: out/VoxaZ-Studio.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VoxaZ-Studio-APK
+          path: out/VoxaZ-Studio.apk
