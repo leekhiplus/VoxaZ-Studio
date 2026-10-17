@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoxaZ Studio - Video Player for Android</title>
+<style>
+body{margin:0;padding:18px 18px 48px;background:#0A0E1A;color:#DDE2F2;font:15px/1.65 Roboto,-apple-system,"Segoe UI",sans-serif}
+h1{font-size:23px;margin:4px 0 2px;color:#fff}
+h2{font-size:16px;margin:26px 0 6px;color:#fff}
+p,li{color:#B9C0D8}
+ul{padding-left:20px}
+li{margin:4px 0}
+a{color:#5E9BFF;text-decoration:none}
+.muted{color:#8E97B5;font-size:13px}
+.card{background:#161C30;border:1px solid #232B45;border-radius:12px;padding:12px 14px;margin:10px 0}
+
+.wrap{max-width:760px;margin:0 auto}
+nav{padding:14px 0;border-bottom:1px solid #232B45;margin-bottom:8px}
+nav a{margin-right:16px;font-size:14px}
+footer{margin-top:36px;color:#8E97B5;font-size:13px}
+</style></head>
+<body>
+<div class="wrap">
+<nav><a href="index.html"><b>VoxaZ Studio</b></a><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></nav>
+
+<h1 style="font-size:30px;margin-top:20px">VoxaZ Studio</h1>
+<p style="font-size:17px">A modern video player for Android with a desktop-style layout, a TikTok-style Shorts feed, subtle AMOLED display enhancement and extra volume up to 200%.</p>
+<div class="card"><b>Highlights</b>
+<ul>
+<li>Library, folders, favorites, history and playlists</li>
+<li>Shorts feed with an optional PIN-protected Child lock</li>
+<li>Picture-in-picture, subtitles, audio tracks, playback speed</li>
+<li>Portrait and landscape layouts</li>
+</ul></div>
+<p><a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms of Use</a></p>
+<p>Support: <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
+
+<footer>&copy; {{DEVELOPER}} &middot; <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></footer>
+</div>
+<script src="config.js"></script>
+<script>(function(){var h=document.body.innerHTML;h=h.split("{{DEVELOPER}}").join(VOXAZ.developer).split("{{EMAIL}}").join(VOXAZ.email);document.body.innerHTML=h;})();</script>
+</body></html>
